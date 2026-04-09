@@ -7,49 +7,49 @@
 
 ---
 
-## 📌 Overview
+## Overview
 
 This project demonstrates the design and implementation of a **DNS infrastructure in a Windows-based environment**, including cross-network communication between two isolated environments.
 
-The lab replicates real-world administrative tasks such as DNS configuration, routing, and multi-network name resolution.
+---
+
+## Architecture
+
+```
+                                                🌐 NETWORK 1 (192.168.1.0/24)
+                                                
+                                                ┌──────────────────────────────┐
+                                                │ Windows Server 2022 (DNS)    │
+                                                │ ─ Primary DNS Server         │
+                                                └─────────────┬────────────────┘
+                                                              │
+                                                        ┌─────▼─────┐
+                                                        │ Windows 10 │
+                                                        │ Client     │
+                                                        └────────────┘
+                                                
+                                                
+                                                🌐 NETWORK 2 (192.168.2.0/24)
+                                                
+                                                ┌──────────────────────────────┐
+                                                │ Windows Server 2022 (DNS)    │
+                                                │ ─ Secondary / Forwarding     │
+                                                └─────────────┬────────────────┘
+                                                              │
+                                                        ┌─────▼─────┐
+                                                        │ Windows 11 │
+                                                        │ Client     │
+                                                        └────────────┘
+                                                
+                                                
+                                         Static Routing + DNS Resolution (Cross-Network)
+```
 
 ---
 
-## 🧠 Architecture Diagram
+## Infrastructure Setup
 
-```
-🌐 NETWORK 1 (192.168.1.0/24)
-┌──────────────────────────────┐
-│ Windows Server 2022 (DNS)    │
-│ ─ Primary DNS Server         │
-└─────────────┬────────────────┘
-              │
-        ┌─────▼─────┐
-        │ Windows 10 │
-        │ Client     │
-        └────────────┘
-
-
-🌐 NETWORK 2 (192.168.2.0/24)
-┌──────────────────────────────┐
-│ Windows Server 2022 (DNS)    │
-│ ─ Secondary / Forwarding     │
-└─────────────┬────────────────┘
-              │
-        ┌─────▼─────┐
-        │ Windows 11 │
-        │ Client     │
-        └────────────┘
-
-
-🔀 Static Routing + DNS Resolution (Cross-Network)
-```
-
----
-
-## ⚙️ Infrastructure Setup
-
-### 🖥️ Systems Configured
+### Systems Configured
 
 * Windows Server 2022 (Primary DNS Servers)
 * Windows 10 Client
@@ -57,7 +57,7 @@ The lab replicates real-world administrative tasks such as DNS configuration, ro
 
 ---
 
-### 🔧 Core Configuration
+### Core Configuration
 
 * Renamed systems for structured environment
 * Configured **Static IP addressing**
@@ -65,37 +65,35 @@ The lab replicates real-world administrative tasks such as DNS configuration, ro
 * Disabled IPv6 for controlled lab testing
 * Adjusted firewall settings for connectivity
 
-📸 **System Setup**
+<p align="center">
+  <img src="screenshots/01-server-setup.png" width="550"/>
+</p>
 
-![Server Setup](screenshots/01-server-setup.png)
-![Client Setup](screenshots/02-client-setup.png)
-
----
-
-## 🌐 Network Connectivity
-
-📸 **Ping Verification**
-
-![Ping Test](screenshots/03-ping-test.png)
-![Reverse Ping](screenshots/04-reverse-ping.png)
+<p align="center">
+  <img src="screenshots/02-client-setup.png" width="550"/>
+</p>
 
 ---
 
-## 📡 DNS Deployment
+## DNS Deployment
 
 * Installed DNS Server Role
 * Configured DNS Manager
 * Validated service functionality
 
-📸 **DNS Installation**
+<p align="center">
+  <img src="screenshots/05-dns-install.png" width="550"/>
+</p>
 
-![DNS Install](screenshots/05-dns-install.png)
+<p align="center">
+  <img src="screenshots/06-dns-installed.png" width="550"/>
+</p>
 
 ---
 
-## 🧩 DNS Configuration
+## DNS Configuration
 
-### 🔹 Forward Lookup Zone
+### Forward Lookup Zone
 
 * Created Primary Zone
 * Configured:
@@ -104,24 +102,28 @@ The lab replicates real-world administrative tasks such as DNS configuration, ro
   * NS Record
   * SOA Record
 
-📸 **Forward Lookup Zone**
-
-![Forward Zone](screenshots/06-forward-zone.png)
+<p align="center">
+  <img src="screenshots/07-forward-zone.png" width="650"/>
+</p>
 
 ---
 
-### 🔹 Reverse Lookup Zone
+### Reverse Lookup Zone
 
 * Implemented reverse resolution
 * Configured PTR Records
 
-📸 **Reverse Lookup Zone**
+<p align="center">
+  <img src="screenshots/11-reverse-zone.png" width="550"/>
+</p>
 
-![Reverse Zone](screenshots/11-reverse-zone.png)
+<p align="center">
+  <img src="screenshots/12-ptr-record.png" width="550"/>
+</p>
 
 ---
 
-## 🧾 DNS Records Implemented
+## DNS Records Implemented
 
 | Record Type | Purpose       |
 | ----------- | ------------- |
@@ -130,14 +132,17 @@ The lab replicates real-world administrative tasks such as DNS configuration, ro
 | CNAME       | Alias mapping |
 | MX          | Mail routing  |
 
-📸 **DNS Records**
+<p align="center">
+  <img src="screenshots/09-cname.png" width="550"/>
+</p>
 
-![CNAME](screenshots/09-cname.png)
-![MX Record](screenshots/10-mx.png)
+<p align="center">
+  <img src="screenshots/10-mx.png" width="550"/>
+</p>
 
 ---
 
-## 🔁 DNS Operations
+## DNS Operations
 
 Used built-in tools for validation and troubleshooting:
 
@@ -148,35 +153,42 @@ ipconfig /displaydns
 nslookup
 ```
 
-📸 **DNS Registration & Visibility**
-
-![DNS Register](screenshots/07-dns-register.png)
-![DNS Client Visible](screenshots/08-dns-client.png)
+<p align="center">
+  <img src="screenshots/08-dns-client.png" width="600"/>
+</p>
 
 ---
 
-## 🧪 Testing & Validation
+## Testing & Validation
 
 * ✔ Forward lookup (hostname → IP)
 * ✔ Reverse lookup (IP → hostname)
 * ✔ DNS cache verification
 * ✔ Cross-network resolution
 
-📸 **Testing**
+<p align="center">
+  <img src="screenshots/03-ping-test.png" width="550"/>
+</p>
 
-![NSLOOKUP](screenshots/12-nslookup.png)
+<p align="center">
+  <img src="screenshots/04-reverse-ping.png" width="550"/>
+</p>
+
+<p align="center">
+  <img src="screenshots/13-nslookup.png" width="600"/>
+</p>
 
 ---
 
-# 🏢 Multi-Network DNS Communication
+# Multi-Network DNS Communication
 
-## 🎯 Goal
+## Goal
 
 Enable communication between two independent network environments.
 
 ---
 
-## 🔀 Routing Configuration
+## Routing Configuration
 
 * Implemented static routes between networks
 * Verified using:
@@ -186,69 +198,68 @@ route print
 ping
 ```
 
-📸 **Routing**
+<p align="center">
+  <img src="screenshots/14-add-routing.png" width="550"/>
+</p>
 
-![Route Add](screenshots/13-routing.png)
-![Route Print](screenshots/14-route-print.png)
-
----
-
-## 🌐 Cross-Network Connectivity
-
-📸 **Cross Network Ping**
-
-![Cross Ping](screenshots/15-cross-ping.png)
+<p align="center">
+  <img src="screenshots/15-route-print.png" width="550"/>
+</p>
 
 ---
 
-## 🔁 DNS Communication Methods
+## DNS Communication Methods
 
-### 🔹 Secondary Zones
+### Secondary Zones
 
 * Enabled zone transfers between servers
 
-⚠️ Limitation:
+Limitation:
 Full DNS visibility across environments
 
-📸 **Secondary Zone**
-
-![Secondary Zone](screenshots/16-secondary-zone.png)
+<p align="center">
+  <img src="screenshots/17-secondary-zone.png" width="600"/>
+</p>
 
 ---
 
-### 🔹 Stub Zones
+### Stub Zones
 
 * Configured partial DNS data sharing
 * Improved security over secondary zones
 
-📸 **Stub Zone**
-
-![Stub Zone](screenshots/17-stub-zone.png)
+<p align="center">
+  <img src="screenshots/18-stub-zone.png" width="600"/>
+</p>
 
 ---
 
-### 🔹 Conditional Forwarders (Production Approach)
+### Conditional Forwarders (Production Approach)
 
 * Configured domain-based query forwarding
 * Enabled efficient and secure name resolution
 
-✅ Most practical real-world solution
+Most practical real-world solution
 
-📸 **Conditional Forwarder**
-
-![Conditional Forwarder](screenshots/18-conditional-forwarder.png)
+<p align="center">
+  <img src="screenshots/19-conditional-forwarder.png" width="650"/>
+</p>
 
 ---
 
-## 🧪 Final Results
+## Final Results
 
 * Successful communication between both networks
 * DNS resolution verified across environments
 * End-to-end validation using `ping` and `nslookup`
 
+<p align="center">
+  <img src="screenshots/16-cross-ping.png" width="650"/>
+</p>
+
 ---
 
-## 🧠 Key Concepts Demonstrated
+## Key Concepts Demonstrated
 
 * DNS architecture & resolution process
 * Forward vs Reverse Lookup Zones
@@ -258,20 +269,13 @@ Full DNS visibility across environments
 
 ---
 
-## 📂 Project Structure
+## Screenshots
 
-```
-/screenshots
-   ├── 01-system-setup/
-   ├── 02-dns-installation/
-   ├── 03-dns-records/
-   ├── 04-testing/
-   └── 05-multi-network/
-```
+> Stored inside `/screenshots` folder
 
 ---
 
-## 🚀 What This Project Demonstrates
+## What This Project Demonstrates
 
 * Real-world DNS deployment and management
 * Practical networking and routing skills
